@@ -38,7 +38,8 @@ const BentoGrid = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          Between November 2020 and December 2022, 533 cannabis samples were analyzed in Colombia to assess their potency using near-infrared spectrometry. This analysis included flowers and extracts from licensed projects, home growers, and cannabis competitions. With these data, we aim to contribute to an informed debate on cannabis regulation and responsible consumption. 
+          Between November 2020 and December 2022, 533 cannabis samples were analyzed in Colombia to assess their potency using near-infrared spectrometry. This analysis included flowers and extracts from licensed projects, home growers, and cannabis competitions. With these data, we aim to contribute to an informed debate on cannabis regulation and responsible consumption.
+          THE DATA IS ONLY FOR TESTING PURPOSES OF THE WEBSITE 
         </motion.p>
       </div>
 
@@ -55,7 +56,7 @@ const BentoGrid = () => {
           <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">Average THC</h2>
           <div className="flex flex-col gap-2">
             <span className="text-6xl font-bold text-white font-karla">12.8%</span>
-            <p className="text-neutral-400 font-karla">Average THC content in cannabis samples.</p>
+            <p className="text-neutral-400 font-karla">Average THC content in high-psychoactivity cannabis samples.</p>
           </div>
         </motion.div>
 
@@ -68,7 +69,7 @@ const BentoGrid = () => {
           whileHover={{ scale: 1.02 }}
         >
           <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">THC Potency Awareness</h2>
-          <p className="text-neutral-200 font-karla">More THC doesn't always mean a better experience. Cannabis with high THC levels can increase the risk of adverse effects.</p>
+          <p className="text-neutral-200 font-karla">More THC doesn&apos;t always mean a better experience. Cannabis with high THC levels can increase the risk of adverse effects.</p>
         </motion.div>
 
         {/* NEW CARD - THC Range */}
@@ -101,24 +102,10 @@ const BentoGrid = () => {
           <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">Average CBD</h2>
           <div className="flex flex-col gap-2">
             <span className="text-4xl md:text-5xl font-bold text-white">0.9%</span>
-            <p className="text-neutral-400">Average CBD content</p>
+            <p className="text-neutral-400">Average CBD content in samples</p>
           </div>
         </motion.div>
 
-        {/* NEW CARD - THC/CBD Relationship */}
-        <motion.div 
-          className="col-span-1 md:col-span-1 lg:col-span-1 row-span-1 bg-gradient-to-r  from-green-900 to-indigo-900 rounded-3xl p-4 md:p-6 hover:from-purple-800 hover:to-blue-800 transition-colors"
-          initial={{ opacity: 0, x: 100 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.35 }}
-          whileHover={{ scale: 1.02 }}
-        >
-          <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">The THC-CBD Relationship</h2>
-          <p className="text-neutral-200 font-karla">
-            When THC levels go up, CBD levels goes down. This relationship is strongest in cannabis with less than 10% THC.
-          </p>
-        </motion.div>
-        
         {/* NEW CARD - Highest CBD */}
         <motion.div 
           className="col-span-1 md:col-span-1 lg:col-span-1 row-span-1 bg-neutral-900 rounded-3xl p-4 md:p-6 hover:bg-neutral-800 transition-colors"
@@ -130,8 +117,22 @@ const BentoGrid = () => {
           <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">Highest CBD</h2>
           <div className="flex flex-col gap-2">
             <span className="text-4xl md:text-5xl font-bold text-white">9.3%</span>
-            <p className="text-neutral-400">Maximum CBD level recorded</p>
+            <p className="text-neutral-400">Maximum CBD level recorded in a sample</p>
           </div>
+        </motion.div>
+
+        {/* NEW CARD - THC/CBD Relationship */}
+        <motion.div 
+          className="col-span-1 md:col-span-2 lg:col-span-3 row-span-1 bg-gradient-to-r from-purple-900 to-blue-900 rounded-3xl p-4 md:p-6 hover:from-purple-800 hover:to-blue-800 transition-colors"
+          initial={{ opacity: 0, x: 100 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.35 }}
+          whileHover={{ scale: 1.02 }}
+        >
+          <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">The THC-CBD Seesaw Effect</h2>
+          <p className="text-neutral-200 font-karla">
+            Our analysis revealed an interesting pattern: when THC levels go up, CBD levels tend to go down, like a seesaw. This relationship is strongest in cannabis with less than 10% THC. In higher-potency cannabis (above 10% THC), this pattern still exists but becomes less pronounced. This natural balance helps explain why different cannabis varieties produce such varied effects.
+          </p>
         </motion.div>
 
         {/* Educational Card - CBD-THC Balance */}
@@ -143,7 +144,7 @@ const BentoGrid = () => {
           whileHover={{ scale: 1.02 }}
         >
           <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">CBD-THC Balance</h2>
-          <p className="text-neutral-200 font-karla">CBD can counteract THC’s psychoactive effects, making balanced strains preferable for those seeking therapeutic benefits like pain relief and anxiety reduction without intense psychoactivity.</p>
+          <p className="text-neutral-200 font-karla">CBD can counteract THC&apos;s psychoactive effects. This interaction makes strains with a better balance between both cannabinoids preferable for those seeking therapeutic benefits without intense psychoactivity.</p>
         </motion.div>
 
         {/* Data Card - Highest THC */}
@@ -184,7 +185,7 @@ const BentoGrid = () => {
           <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">Colombian Usage</h2>
           <div className="flex flex-col gap-2">
             <span className="text-4xl md:text-5xl font-bold text-white">8.3%</span>
-            <p className="text-neutral-400">Proportion of Colombians who have consumed cannabis. Data from the 2019 National Survey of Drug Use).</p>
+            <p className="text-neutral-400">Proportion of Colombians who have consumed cannabis</p>
           </div>
         </motion.div>
 
@@ -209,7 +210,7 @@ const BentoGrid = () => {
           whileHover={{ scale: 1.02 }}
         >
           <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">Get the Complete Report</h2>
-          <p className="text-sm md:text-base text-neutral-400 mb-4 md:mb-6">Leave your email to receive a complete analysis of cannabis potency in Colombia.</p>
+          <p className="text-sm md:text-base text-neutral-400 mb-4 md:mb-6">Leave your email to receive a comprehensive analysis of cannabis potency in Colombia.</p>
           <div className="flex flex-col md:flex-row gap-3 md:gap-4">
             <input
               type="email"
