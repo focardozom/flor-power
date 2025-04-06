@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import clientPromise from '@/lib/mongodb';
+import clientPromise from '../../../app/lib/mongodb';
 
 // This is a simple admin endpoint to view all subscribers
 // In a production app, you should add authentication to this endpoint!
