@@ -5,6 +5,40 @@ import { promisify } from 'util';
 
 const dnsLookup = promisify(dns.lookup);
 
+// Define proper types for our diagnostic data
+interface DNSDiagnostics {
+  hostname?: string;
+  lookup?: 'pending' | 'success' | 'failed';
+  address?: string;
+  family?: number;
+  error?: string;
+}
+
+interface ConnectionDiagnostics {
+  status: 'pending' | 'connected' | 'failed';
+  clientCreated?: boolean;
+  connectTimeMs?: number;
+  ping?: 'success' | 'failed';
+  databaseAccessed?: boolean;
+  collections?: string[];
+  closed?: boolean;
+  error?: string;
+  errorCode?: string;
+  errorName?: string;
+}
+
+interface DiagnosticsData {
+  environment: string | undefined;
+  envVars: {
+    MONGODB_URI: boolean;
+    MONGODB_URI_LENGTH: number;
+    MONGODB_DB: string;
+    ADMIN_API_KEY: boolean;
+  };
+  dns: DNSDiagnostics;
+  connection: ConnectionDiagnostics;
+}
+
 export async function GET(request: NextRequest) {
   try {
     // Basic API key auth
@@ -20,7 +54,7 @@ export async function GET(request: NextRequest) {
     }
     
     // Verify environment variables
-    const diagnostics = {
+    const diagnostics: DiagnosticsData = {
       environment: process.env.NODE_ENV,
       envVars: {
         MONGODB_URI: !!process.env.MONGODB_URI,
@@ -28,8 +62,10 @@ export async function GET(request: NextRequest) {
         MONGODB_DB: process.env.MONGODB_DB || 'flor_power',
         ADMIN_API_KEY: !!process.env.ADMIN_API_KEY,
       },
-      dns: {} as any,
-      connection: {} as any,
+      dns: {},
+      connection: {
+        status: 'pending'
+      },
     };
     
     // Extract hostname from URI for DNS lookup
@@ -50,13 +86,21 @@ export async function GET(request: NextRequest) {
           diagnostics.dns.lookup = 'success';
           diagnostics.dns.address = dnsResult.address;
           diagnostics.dns.family = dnsResult.family;
-        } catch (dnsError: any) {
+        } catch (dnsError: unknown) {
           diagnostics.dns.lookup = 'failed';
-          diagnostics.dns.error = dnsError.message;
+          if (dnsError instanceof Error) {
+            diagnostics.dns.error = dnsError.message;
+          } else {
+            diagnostics.dns.error = String(dnsError);
+          }
         }
       }
-    } catch (parseError: any) {
-      diagnostics.dns.error = `Failed to parse URI: ${parseError.message}`;
+    } catch (parseError: unknown) {
+      if (parseError instanceof Error) {
+        diagnostics.dns.error = `Failed to parse URI: ${parseError.message}`;
+      } else {
+        diagnostics.dns.error = `Failed to parse URI: ${String(parseError)}`;
+      }
     }
     
     // Test MongoDB connection
@@ -105,11 +149,21 @@ export async function GET(request: NextRequest) {
       // Close connection
       await client.close();
       diagnostics.connection.closed = true;
-    } catch (dbError: any) {
+    } catch (dbError: unknown) {
       diagnostics.connection.status = 'failed';
-      diagnostics.connection.error = dbError.message;
-      diagnostics.connection.errorCode = dbError.code;
-      diagnostics.connection.errorName = dbError.name;
+      
+      if (dbError instanceof Error) {
+        diagnostics.connection.error = dbError.message;
+        diagnostics.connection.errorName = dbError.name;
+        
+        // Handle case where error might have a code property
+        const errorWithCode = dbError as { code?: string };
+        if (errorWithCode.code) {
+          diagnostics.connection.errorCode = errorWithCode.code;
+        }
+      } else {
+        diagnostics.connection.error = String(dbError);
+      }
     }
     
     // Return full diagnostics
@@ -117,11 +171,11 @@ export async function GET(request: NextRequest) {
       success: diagnostics.connection.status === 'connected',
       diagnostics
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     return NextResponse.json({
       success: false,
       message: 'Test failed',
-      error: error.message,
+      error: error instanceof Error ? error.message : String(error),
     }, { status: 500 });
   }
 } 

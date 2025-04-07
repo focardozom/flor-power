@@ -26,13 +26,13 @@ export async function GET() {
       ping: result.ok === 1 ? 'success' : 'failed',
       message: 'MongoDB connection test successful'
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     // Return detailed error information
     return NextResponse.json({
       success: false,
-      error: error.message,
-      code: error.code,
-      name: error.name,
+      error: error instanceof Error ? error.message : String(error),
+      code: (error as { code?: string }).code,
+      name: error instanceof Error ? error.name : typeof error,
       message: 'MongoDB connection test failed'
     });
   }

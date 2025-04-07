@@ -1,6 +1,11 @@
 import { NextResponse } from 'next/server';
 import { MongoClient } from 'mongodb';
 
+interface EnvironmentVars {
+  MONGODB_URI: boolean;
+  MONGODB_DB: boolean;
+}
+
 export async function GET() {
   try {
     // Log connection attempt
@@ -28,7 +33,7 @@ export async function GET() {
       const connectPromise = client.connect();
       
       // Add timeout to connection attempt
-      const timeoutPromise = new Promise((_, reject) => {
+      const timeoutPromise = new Promise<never>((_, reject) => {
         setTimeout(() => reject(new Error('Connection timeout after 10 seconds')), 10000);
       });
       
@@ -55,28 +60,41 @@ export async function GET() {
         environmentVarsPresent: {
           MONGODB_URI: !!process.env.MONGODB_URI,
           MONGODB_DB: !!process.env.MONGODB_DB,
-        }
+        } as EnvironmentVars
       });
-    } catch (connError: any) {
+    } catch (connError: unknown) {
       console.error('MongoDB connection error:', connError);
+      
+      const errorMessage = connError instanceof Error 
+        ? connError.message 
+        : String(connError);
+        
+      const errorStack = connError instanceof Error 
+        ? connError.stack 
+        : undefined;
+        
+      const errorCode = (connError as { code?: string }).code;
+      const errorName = connError instanceof Error 
+        ? connError.name 
+        : undefined;
       
       return NextResponse.json({
         success: false,
         message: 'Failed to connect to MongoDB',
-        error: connError.message,
-        stack: connError.stack,
-        code: connError.code,
-        name: connError.name
+        error: errorMessage,
+        stack: errorStack,
+        code: errorCode,
+        name: errorName
       }, { status: 500 });
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Debug endpoint error:', error);
     
     return NextResponse.json({
       success: false,
       message: 'Unexpected error in debug endpoint',
-      error: error.message,
-      stack: error.stack
+      error: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined
     }, { status: 500 });
   }
 } 
