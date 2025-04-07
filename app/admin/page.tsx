@@ -33,7 +33,22 @@ export default function AdminPage() {
       
       setSubscribers(data.subscribers || []);
     } catch (err) {
-      setError((err as Error).message);
+      // Test the connection using our diagnostic endpoint
+      try {
+        const testResponse = await fetch(`/api/admin/test-db?apiKey=${encodeURIComponent(apiKey)}`);
+        const testData = await testResponse.json();
+        
+        if (testData.success) {
+          setError(`MongoDB connection is working, but no subscribers were found or there was an issue with the subscribers API.
+                   Connection test: Success. Database: ${testData.diagnostics?.connection?.databaseAccessed ? 'Accessible' : 'Not accessible'}.
+                   Collections: ${testData.diagnostics?.connection?.collections?.join(', ') || 'None'}`);
+        } else {
+          setError(`MongoDB connection error: ${testData.diagnostics?.connection?.error || 'Unknown error'}`);
+        }
+      } catch (testErr) {
+        setError((err as Error).message || 'Failed to fetch subscribers');
+      }
+      
       setSubscribers([]);
     } finally {
       setIsLoading(false);
@@ -88,9 +103,29 @@ export default function AdminPage() {
             </div>
             
             {error && (
-              <p className="mt-2 text-red-500">{error}</p>
+              <p className="mt-2 text-red-500 whitespace-pre-line">{error}</p>
             )}
           </form>
+          
+          <div className="mb-4">
+            <h2 className="text-xl font-semibold mb-2">Connection Test</h2>
+            <button
+              onClick={async () => {
+                try {
+                  const testResponse = await fetch('/api/test');
+                  const testData = await testResponse.json();
+                  setError(testData.success 
+                    ? `MongoDB connection test successful! Ping: ${testData.ping}` 
+                    : `MongoDB connection test failed: ${testData.error}`);
+                } catch (err) {
+                  setError(`Test request failed: ${(err as Error).message}`);
+                }
+              }}
+              className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-500"
+            >
+              Test MongoDB Connection
+            </button>
+          </div>
           
           {subscribers.length > 0 && (
             <>
