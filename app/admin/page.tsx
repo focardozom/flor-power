@@ -34,21 +34,25 @@ export default function AdminPage() {
       setSubscribers(data.subscribers || []);
     } catch (err) {
       // Test the connection using our diagnostic endpoint
+      let diagnosticInfo = '';
+      
       try {
         const testResponse = await fetch(`/api/admin/test-db?apiKey=${encodeURIComponent(apiKey)}`);
         const testData = await testResponse.json();
         
         if (testData.success) {
-          setError(`MongoDB connection is working, but no subscribers were found or there was an issue with the subscribers API.
+          diagnosticInfo = `MongoDB connection is working, but no subscribers were found or there was an issue with the subscribers API.
                    Connection test: Success. Database: ${testData.diagnostics?.connection?.databaseAccessed ? 'Accessible' : 'Not accessible'}.
-                   Collections: ${testData.diagnostics?.connection?.collections?.join(', ') || 'None'}`);
+                   Collections: ${testData.diagnostics?.connection?.collections?.join(', ') || 'None'}`;
         } else {
-          setError(`MongoDB connection error: ${testData.diagnostics?.connection?.error || 'Unknown error'}`);
+          diagnosticInfo = `MongoDB connection error: ${testData.diagnostics?.connection?.error || 'Unknown error'}`;
         }
-      } catch (_) {
-        setError((err as Error).message || 'Failed to fetch subscribers');
+      } catch {
+        // If diagnostic test also fails, just use the original error
+        diagnosticInfo = (err as Error).message || 'Failed to fetch subscribers';
       }
       
+      setError(diagnosticInfo);
       setSubscribers([]);
     } finally {
       setIsLoading(false);
@@ -117,8 +121,8 @@ export default function AdminPage() {
                   setError(testData.success 
                     ? `MongoDB connection test successful! Ping: ${testData.ping}` 
                     : `MongoDB connection test failed: ${testData.error}`);
-                } catch (err) {
-                  setError(`Test request failed: ${(err as Error).message}`);
+                } catch {
+                  setError(`Test request failed - could not connect to test endpoint`);
                 }
               }}
               className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-500"
