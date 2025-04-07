@@ -45,7 +45,7 @@ export default function AdminPage() {
         } else {
           setError(`MongoDB connection error: ${testData.diagnostics?.connection?.error || 'Unknown error'}`);
         }
-      } catch (testErr) {
+      } catch (_) {
         setError((err as Error).message || 'Failed to fetch subscribers');
       }
       
