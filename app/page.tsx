@@ -41,7 +41,7 @@ const BentoGrid = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            Between November 2020 and December 2024, 533 cannabis samples were analyzed in Colombia to assess their potency using near-infrared spectrometry. This analysis included flowers and extracts from licensed projects, home growers, and cannabis competitions. With these data, we aim to contribute to an informed debate on cannabis regulation and responsible consumption. 
+            Between November 2020 and December 2024, 533 cannabis samples were analyzed in Colombia to assess their potency using near-infrared spectrometry. These samples were collected from 15 different locations across the country, including Antioquia, Bogotá, Santander, Valle del Cauca, Cauca, Bolivar, Cauca, Cundinamarca, Caldas, Antioquia, Huila, Norte de Santander, Huila, Magdalena, and Valle del Cauca. This analysis included flowers and extracts from licensed projects, home growers, and cannabis competitions. With these data, we aim to contribute to an informed debate on cannabis regulation and responsible consumption. 
           </motion.p>
         </div>
 
