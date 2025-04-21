@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { MongoClient } from 'mongodb';
+import { sendEmail, generateWelcomeEmail } from '@/lib/email';
 
 export async function POST(request: NextRequest) {
   try {
@@ -64,6 +65,23 @@ export async function POST(request: NextRequest) {
       // Close the connection
       await client.close();
       console.log('Connection closed');
+      
+      // Send welcome email
+      try {
+        const welcomeEmail = generateWelcomeEmail(email);
+        const emailResult = await sendEmail({
+          to: email,
+          subject: welcomeEmail.subject,
+          html: welcomeEmail.html,
+        });
+        
+        if (!emailResult.success) {
+          console.warn('Failed to send welcome email:', emailResult.error);
+        }
+      } catch (emailError) {
+        console.error('Error sending welcome email:', emailError);
+        // Continue with the subscription process even if the email fails
+      }
       
       // Return success response
       return NextResponse.json({
