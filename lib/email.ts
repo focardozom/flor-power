@@ -28,7 +28,7 @@ export async function sendEmail({ to, subject, html }: EmailOptions) {
   try {
     // Send email
     const info = await transporter.sendMail({
-      from: `"Flor Power" <${from}>`,
+      from: `"Flower Power" <${from}>`,
       to,
       subject,
       html,
@@ -44,7 +44,7 @@ export async function sendEmail({ to, subject, html }: EmailOptions) {
 
 export function generateWelcomeEmail(email: string) {
   return {
-    subject: 'Report on THC and CBD analysis from our recent study. Flor Power',
+    subject: 'Report on THC and CBD analysis from our recent study. Flower Power',
     html: `
       <!DOCTYPE html>
       <html>
@@ -93,7 +93,7 @@ export function generateWelcomeEmail(email: string) {
           </div>
           <div class="content">
             <p>Hello ${email},</p>
-            <p>Thank you for subscribing to Flor Power!</p>
+            <p>Thank you for subscribing to Flower Power!</p>
             <p>As a subscriber, we'd like to share our expanded report on THC and CBD analysis from our recent study.</p>
             <p>This comprehensive analysis covers THC and CBD distributions, temporal trends, and geographical variations across Colombia.</p>
             <p>
@@ -107,7 +107,7 @@ export function generateWelcomeEmail(email: string) {
             </ul>
           </div>
           <div class="footer">
-            <p>© ${new Date().getFullYear()} Flor Power. All rights reserved.</p>
+            <p>© ${new Date().getFullYear()} Flower Power. All rights reserved.</p>
             <p>
               If you didn't subscribe, please send an email to
               <a href="mailto:hola@figura1.com.co">hola@figura1.com.co</a>.
