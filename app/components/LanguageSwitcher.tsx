@@ -4,7 +4,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { motion } from 'framer-motion';
 
 export default function LanguageSwitcher() {
-  const { language, setLanguage, t } = useLanguage();
+  const { language, setLanguage } = useLanguage();
 
   return (
     <motion.div 
