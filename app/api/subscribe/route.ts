@@ -5,7 +5,7 @@ import { sendEmail, generateWelcomeEmail } from '@/lib/email';
 export async function POST(request: NextRequest) {
   try {
     // Parse the JSON body from the request
-    const { email } = await request.json();
+    const { email, language = 'es' } = await request.json();
     
     // Validate email
     if (!email || !email.includes('@')) {
@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
       
       // Send welcome email
       try {
-        const welcomeEmail = generateWelcomeEmail(email);
+        const welcomeEmail = generateWelcomeEmail(email, language);
         const emailResult = await sendEmail({
           to: email,
           subject: welcomeEmail.subject,

@@ -1,8 +1,10 @@
 'use client';
 
 import { useState, FormEvent } from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export default function SubscriptionForm() {
+  const { t, language } = useLanguage();
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
@@ -13,7 +15,7 @@ export default function SubscriptionForm() {
     // Simple client-side validation
     if (!email || !email.includes('@')) {
       setStatus('error');
-      setMessage('Please enter a valid email address');
+      setMessage(t('invalidEmail'));
       return;
     }
     
@@ -25,7 +27,7 @@ export default function SubscriptionForm() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, language }),
       });
       
       const data = await response.json();
@@ -49,7 +51,7 @@ export default function SubscriptionForm() {
       
     } catch (error) {
       setStatus('error');
-      setMessage('An error occurred. Please try again.');
+      setMessage(t('errorOccurred'));
       console.error('Subscription error:', error);
     }
   };
@@ -58,7 +60,7 @@ export default function SubscriptionForm() {
     <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-3 md:gap-4">
       <input
         type="email"
-        placeholder="Your email"
+        placeholder={t('emailPlaceholder')}
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         disabled={status === 'loading'}
@@ -69,7 +71,7 @@ export default function SubscriptionForm() {
         disabled={status === 'loading'}
         className="w-full md:w-auto px-6 py-2 bg-green-600 text-white rounded-xl hover:bg-green-500 transition-colors disabled:opacity-50 disabled:bg-green-800"
       >
-        {status === 'loading' ? 'Subscribing...' : 'Subscribe'}
+        {status === 'loading' ? t('subscribing') : t('subscribe')}
       </button>
       
       {message && (

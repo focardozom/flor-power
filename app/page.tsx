@@ -4,26 +4,39 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import ClientOnly from './components/ClientOnly'
 import SubscriptionForm from './components/SubscriptionForm'
+import LanguageSwitcher from './components/LanguageSwitcher'
+import { useLanguage } from './contexts/LanguageContext'
 
 const BentoGrid = () => {
+  const { t } = useLanguage();
+  
   return (
     <ClientOnly>
       <main className="min-h-screen p-8 bg-neutral-950">
-        {/* Logo Section */}
-        <motion.div 
-          className="flex justify-center mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <Image
-            src="/logo.png"
-            alt="Flor Power Logo"
-            width={100}
-            height={100}
-            className="w-auto h-24" // Made logo bigger, adjust size as needed
-          />
-        </motion.div>
+        {/* Header with Logo and Language Switcher */}
+        <div className="flex justify-between items-center mb-12 max-w-7xl mx-auto">
+          {/* Left spacer for balance */}
+          <div className="w-20"></div>
+          
+          {/* Logo - centered */}
+          <motion.div 
+            className="flex justify-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Image
+              src="/logo.png"
+              alt="Flor Power Logo"
+              width={100}
+              height={100}
+              className="w-auto h-24"
+            />
+          </motion.div>
+          
+          {/* Language Switcher - right aligned */}
+          <LanguageSwitcher />
+        </div>
 
         {/* Description Section */}
         <div className="max-w-7xl mx-auto mb-8 md:mb-16 text-center px-4">
@@ -41,7 +54,7 @@ const BentoGrid = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            Between November 2020 and December 2024, 533 cannabis samples were analyzed in Colombia to assess their potency using near-infrared spectrometry. These samples were collected from 15 different locations across the country, including Antioquia, Bogotá, Santander, Valle del Cauca, Cauca, Bolivar, Cauca, Cundinamarca, Caldas, Antioquia, Norte de Santander, Magdalena, and Huila. This analysis included flowers and extracts from licensed projects, home growers, and cannabis competitions. With these data, we aim to contribute to an informed debate on cannabis regulation and responsible consumption. 
+            {t('description')}
           </motion.p>
         </div>
 
@@ -55,10 +68,10 @@ const BentoGrid = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             whileHover={{ scale: 1.02 }}
           >
-            <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">Average THC</h2>
+            <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">{t('averageThc')}</h2>
             <div className="flex flex-col gap-2">
               <span className="text-6xl font-bold text-white font-karla">12.8%</span>
-              <p className="text-neutral-400 font-karla">Average THC content in cannabis samples.</p>
+              <p className="text-neutral-400 font-karla">{t('averageThcDesc')}</p>
             </div>
           </motion.div>
 
@@ -70,8 +83,8 @@ const BentoGrid = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             whileHover={{ scale: 1.02 }}
           >
-            <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">THC Potency Awareness</h2>
-            <p className="text-neutral-200 font-karla">More THC doesn&apos;t always mean a better experience. Cannabis with high THC levels can increase the risk of adverse effects.</p>
+            <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">{t('thcAwareness')}</h2>
+            <p className="text-neutral-200 font-karla">{t('thcAwarenessDesc')}</p>
           </motion.div>
 
           {/* NEW CARD - THC Range */}
@@ -82,14 +95,14 @@ const BentoGrid = () => {
             transition={{ duration: 0.6, delay: 0.25 }}
             whileHover={{ scale: 1.02 }}
           >
-            <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">Typical THC Range</h2>
+            <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">{t('typicalThcRange')}</h2>
             <div className="flex flex-col gap-2">
               <div className="flex items-center justify-center">
                 <span className="text-3xl md:text-5xl font-bold text-white">10.3%</span>
-                <span className="mx-2 text-xl text-neutral-400">to</span>
+                <span className="mx-2 text-xl text-neutral-400">{t('toConnector')}</span>
                 <span className="text-3xl md:text-5xl font-bold text-white">15.3%</span>
               </div>
-              <p className="text-neutral-400 font-karla">Half of all samples fell within this THC range, representing the most common potency levels found.</p>
+              <p className="text-neutral-400 font-karla">{t('typicalThcRangeDesc')}</p>
             </div>
           </motion.div>
 
@@ -101,10 +114,10 @@ const BentoGrid = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
             whileHover={{ scale: 1.02 }}
           >
-            <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">Average CBD</h2>
+            <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">{t('averageCbd')}</h2>
             <div className="flex flex-col gap-2">
               <span className="text-4xl md:text-5xl font-bold text-white">0.9%</span>
-              <p className="text-neutral-400">Average CBD content in samples</p>
+              <p className="text-neutral-400">{t('averageCbdDesc')}</p>
             </div>
           </motion.div>
 
@@ -116,10 +129,10 @@ const BentoGrid = () => {
             transition={{ duration: 0.6, delay: 0.32 }}
             whileHover={{ scale: 1.02 }}
           >
-            <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">Highest CBD</h2>
+            <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">{t('highestCbd')}</h2>
             <div className="flex flex-col gap-2">
               <span className="text-4xl md:text-5xl font-bold text-white">9.3%</span>
-              <p className="text-neutral-400">Maximum CBD level recorded in a sample</p>
+              <p className="text-neutral-400">{t('highestCbdDesc')}</p>
             </div>
           </motion.div>
 
@@ -131,9 +144,9 @@ const BentoGrid = () => {
             transition={{ duration: 0.6, delay: 0.35 }}
             whileHover={{ scale: 1.02 }}
           >
-            <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">The THC-CBD Relationship</h2>
+            <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">{t('thcCbdRelationship')}</h2>
             <p className="text-neutral-200 font-karla">
-              When THC levels go up, CBD levels tend to go down. This relationship is strongest in cannabis with less than 10% THC.
+              {t('thcCbdRelationshipDesc')}
             </p>
           </motion.div>
 
@@ -145,10 +158,10 @@ const BentoGrid = () => {
             transition={{ duration: 0.6, delay: 0.5 }}
             whileHover={{ scale: 1.02 }}
           >
-            <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">Highest THC</h2>
+            <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">{t('highestThc')}</h2>
             <div className="flex flex-col gap-2">
               <span className="text-4xl md:text-5xl font-bold text-white">20.40%</span>
-              <p className="text-neutral-400">Highest THC level recorded in a sample</p>
+              <p className="text-neutral-400">{t('highestThcDesc')}</p>
             </div>
           </motion.div>
 
@@ -160,8 +173,8 @@ const BentoGrid = () => {
             transition={{ duration: 0.6, delay: 0.6 }}
             whileHover={{ scale: 1.02 }}
           >
-            <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">Historical Context</h2>
-            <p className="text-neutral-200 font-karla">Cannabis potency has changed. Decades ago, 10% THC was considered strong. Today, some strains exceed 30%, posing new challenges for informed consumption.</p>
+            <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">{t('historicalContext')}</h2>
+            <p className="text-neutral-200 font-karla">{t('historicalContextDesc')}</p>
           </motion.div>
 
           {/* Data Card - Colombian Usage */}
@@ -172,10 +185,10 @@ const BentoGrid = () => {
             transition={{ duration: 0.6, delay: 0.7 }}
             whileHover={{ scale: 1.02 }}
           >
-            <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">Colombian Usage</h2>
+            <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">{t('colombianUsage')}</h2>
             <div className="flex flex-col gap-2">
               <span className="text-4xl md:text-5xl font-bold text-white">8.3%</span>
-              <p className="text-neutral-400">Proportion of Colombians who have consumed cannabis</p>
+              <p className="text-neutral-400">{t('colombianUsageDesc')}</p>
             </div>
           </motion.div>
 
@@ -187,8 +200,8 @@ const BentoGrid = () => {
             transition={{ duration: 0.6, delay: 0.8 }}
             whileHover={{ scale: 1.02 }}
           >
-            <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">Market Education</h2>
-            <p className="text-neutral-200 font-karla">A more informed market is a safer market. Accessing reliable information about cannabinoids in cannabis products is key to reducing risks and improving the consumer experience.</p>
+            <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">{t('marketEducation')}</h2>
+            <p className="text-neutral-200 font-karla">{t('marketEducationDesc')}</p>
           </motion.div>
 
           {/* Contact Card */}
@@ -199,8 +212,8 @@ const BentoGrid = () => {
             transition={{ duration: 0.6, delay: 0.9 }}
             whileHover={{ scale: 1.02 }}
           >
-            <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">Get the Complete Report</h2>
-            <p className="text-sm md:text-base text-neutral-400 mb-4 md:mb-6">Leave your email to receive a comprehensive analysis of cannabis potency in Colombia.</p>
+            <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">{t('getReport')}</h2>
+            <p className="text-sm md:text-base text-neutral-400 mb-4 md:mb-6">{t('getReportDesc')}</p>
             <SubscriptionForm />
           </motion.div>
         </div>
@@ -213,7 +226,7 @@ const BentoGrid = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            Created by figura01 © {new Date().getFullYear()}
+{t('createdBy')} © {new Date().getFullYear()}
           </motion.p>
         </div>
       </main>
