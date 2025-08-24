@@ -60,10 +60,7 @@ const translations = {
     spanish: "Español",
     
     // THC Range card - missing translations
-    toConnector: "to",
-    
-    // All remaining cards that need translation
-    typicalThcRangeDesc: "Half of all samples fell within this THC range, representing the most common potency levels found."
+    toConnector: "to"
   },
   es: {
     // Header
@@ -112,10 +109,7 @@ const translations = {
     spanish: "Español",
     
     // THC Range card - missing translations
-    toConnector: "a",
-    
-    // All remaining cards that need translation
-    typicalThcRangeDesc: "La mitad de todas las muestras cayeron dentro de este rango de THC, representando los niveles de potencia más comunes encontrados."
+    toConnector: "a"
   }
 };
 
